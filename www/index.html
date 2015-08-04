@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="got">
+    <head>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+        <script type="text/javascript" src="node_modules/angular-route/angular-route.min.js"></script>
+        <script type="text/javascript">
+        var gotApp = angular.module('got', ['ngRoute']);
+        gotApp.config(['$routeProvider',
+          function($routeProvider) {
+            $routeProvider.
+              when('/allocatehouses', {
+                template: '<div allocate-houses></div>'
+              })
+              .when('/playernames', {
+                template: '<div add-players></div>'
+              })
+              .otherwise({
+                    redirectTo: '/playernames'
+                });
+          }]);
+
+        gotApp.run(function($templateCache) {
+          $templateCache.put('addPlayers.html',
+            '<div><div class="player-names-heading-container"><label class="player-names-heading">Name the players</label><button class="btn btn-warning skip-player-names-button" ng-if=\'hasStoredData\' ng-click="allocateHouses()">Skip >> </button></div>' +
+            '<div class="player-names-container">' +
+            '<div class="player-names"><input type="text" class="form-control" placeholder="Player 1" ng-model="players.player1"/></div>' +
+            '<div class="player-names"><input type="text" class="form-control" placeholder="Player 2" ng-model="players.player2"/></div>' +
+            '<div class="player-names"><input type="text" class="form-control" placeholder="Player 3" ng-model="players.player3"/></div>' +
+            '<div class="player-names"><input type="text" class="form-control" placeholder="Player 4 (Optional)" ng-model="players.player4"/></div>' +
+            '<div class="player-names"><input type="text" class="form-control" placeholder="Player 5 (Optional)" ng-model="players.player5"/></div>' +
+            '<div class="player-names"><input type="text" class="form-control" placeholder="Player 6 (Optional)" ng-model="players.player6"/></div>' +
+            '</div>' +
+            '<div class="player-names-save"><button type="button" class="btn btn-primary btn-lg btn-block" ng-click="save()">Save</button></div>' +
+            '</div>'
+            );
+
+          $templateCache.put('allocateHouses.html',
+            '<div><div class="player-names-heading-container"><button class="btn btn-warning back-button" ng-click="navigateToPlayerNames()">< Back </button><label class="allocate-houses-heading">Hit shuffle to allocate houses</label></div>' +
+            '<div class="shuffle-result-container" ng-if=\'finalCombination["Starks"]!==undefined\'>' +
+
+            '<table class="shuffle-result-table">' +
+            '<tr class="shuffle-result-panel stark-theme" ng-if=\'finalCombination["Starks"]!==undefined\'><td><div class="stark-img"/></td><td><label>House Starks</label></td>  <td><label>{{finalCombination["Starks"]}}</label></td></tr>' +
+            '<tr class="empty_space"></tr>' + 
+            '<tr class="shuffle-result-panel baratheon-theme" ng-if=\'finalCombination["Baratheon"]!==undefined\'><td><div class="baratheon-img"/></td><td><label>House Baratheon</label></td>  <td><label>{{finalCombination["Baratheon"]}}</label></td></tr>' +
+            '<tr class="empty_space"></tr>' +  
+            '<tr class="shuffle-result-panel lannisters-theme" ng-if=\'finalCombination["Lannisters"]!==undefined\'><td><div class="lannisters-img"/></td><td><label>House Lannisters</label></td>  <td><label>{{finalCombination["Lannisters"]}}</label></td></tr>' + 
+            '<tr class="empty_space"></tr>' + 
+            '<tr class="shuffle-result-panel greyjoy-theme" ng-if=\'finalCombination["Greyjoy"]!==undefined\'><td><div class="greyjoy-img"/></td><td><label>House Greyjoy</label></td>  <td><label>{{finalCombination["Greyjoy"]}}</label></td></tr>' + 
+            '<tr class="empty_space"></tr>' + 
+            '<tr class="shuffle-result-panel highgarden-theme" ng-if=\'finalCombination["Highgarden"]!==undefined\'><td><div class="highgarden-img"/></td><td><label>House Highgarden</label></td>  <td><label>{{finalCombination["Highgarden"]}}</label></td></tr>' + 
+            '<tr class="empty_space"></tr>' + 
+            '<tr class="shuffle-result-panel dorne-theme" ng-if=\'finalCombination["Dorne"]!==undefined\'><td><div class="dorne-img"/></td><td><label>House Dorne</label></td>  <td><label>{{finalCombination["Dorne"]}}</label></td></tr></table>' +
+
+            '</div>' +
+            '<div class="allocate-houses-shuffle"><button type="button" class="btn btn-primary btn-lg btn-block" ng-click="allocateHouses()">Shuffle</button></div>' +
+            '</div>'
+
+            );
+        });
+        </script>
+        <script type="text/javascript" src="js/Services.js"></script>
+        <script type="text/javascript" src="js/addPlayers.js"></script>
+        <script type="text/javascript" src="js/allocateHouses.js"></script>
+
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/app.css">
+        <title>Hellos</title>
+    </head>
+    <body>
+        <div class="bkg">
+            <div ng-view></div>
+        </div>
+    </body>
+</html>
